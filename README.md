@@ -44,7 +44,7 @@ Build a full-stack Web3 app that allows a user to:
 * No third-party signature validation services — use raw `ethers.js`, `viem` or similar in backend
 
 ## 🚀 Submission Guidelines
-* Greate a **GitHub repo**
+* Create a **GitHub repo**
 * Include:
    * Setup instructions for both frontend and backend in a README.md file
    * Notes on any trade-offs made or areas you'd improve
