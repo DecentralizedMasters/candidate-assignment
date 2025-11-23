@@ -1,5 +1,6 @@
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import MessageSigner from './MessageSigner'
+import VerificationHistory from './VerificationHistory'
 
 
 
@@ -12,7 +13,8 @@ const CustomWidget = () => {
             <h2> {user?.email || 'user'} connected</h2>
             <p>Wallet Address: {primaryWallet?.address || "no wallet connected"}</p>
             <button onClick={handleLogOut}>Log Out</button>
-            <div><MessageSigner/></div>
+            <MessageSigner />
+            <VerificationHistory />
         </>
     )
 }

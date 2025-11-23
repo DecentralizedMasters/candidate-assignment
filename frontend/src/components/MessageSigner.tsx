@@ -1,6 +1,8 @@
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { useState } from 'react'
 
+
+
 const MessageSigner = () => {
     const { primaryWallet } = useDynamicContext()
     const [message, setMessage] = useState('')
@@ -21,6 +23,11 @@ const MessageSigner = () => {
             })
             const data = await res.json()
             console.log('Verification response:', data)
+            const resultWithTimestamp = {...data, timestamp: new Date().toLocaleString()}
+            const saved = localStorage.getItem('verificationHistory')
+            const history = saved ? JSON.parse(saved) : []
+            const newHistory = [resultWithTimestamp, ...history]
+            localStorage.setItem('verificationHistory', JSON.stringify(newHistory))
         } catch (err) {
             setError((err as Error)?.message || 'Signing failed')
         }
@@ -33,7 +40,8 @@ const MessageSigner = () => {
                 onChange={(e) => setMessage(e.target.value)}
             />
             <button onClick={signMessage}>Sign & Verify</button>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
+            {error && <p>{error}</p>}
+
         </>
     )
 }
