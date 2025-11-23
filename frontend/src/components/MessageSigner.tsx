@@ -5,11 +5,11 @@ import { historyService } from '../services/historyService'
 
 
 
-
-const MessageSigner = () => {
+const MessageSigner = ({ onSuccess }: { onSuccess: () => void }) => {
     const { primaryWallet } = useDynamicContext()
     const [message, setMessage] = useState('')
     const [error, setError] = useState<string | null>(null)
+
 
 
     async function signMessage() {
@@ -23,6 +23,7 @@ const MessageSigner = () => {
             console.log('Verification response:', data)
             const resultWithTimestamp = {...data, timestamp: new Date().toLocaleString()}
             historyService.addToHistory(resultWithTimestamp)
+            onSuccess()
         } catch (err) {
             setError((err as Error)?.message || 'Signing failed')
         }
