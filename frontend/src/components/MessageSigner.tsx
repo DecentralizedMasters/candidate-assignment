@@ -1,5 +1,6 @@
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { useState } from 'react'
+import { apiService } from '../services/apiService'
 import { historyService } from '../services/historyService'
 
 
@@ -15,15 +16,10 @@ const MessageSigner = () => {
 
 
         try {
-
             const signature = await primaryWallet?.signMessage(message)
-
-            const res = await fetch(`${import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000'}/verify-signature`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message, signature }),
-            })
-            const data = await res.json()
+            if (!signature) return
+            
+            const data = await apiService.verifySignature({ message, signature })
             console.log('Verification response:', data)
             const resultWithTimestamp = {...data, timestamp: new Date().toLocaleString()}
             historyService.addToHistory(resultWithTimestamp)
