@@ -1,15 +1,8 @@
-interface VerificationResult {
-    isValid: boolean
-    signer: string
-    originalMessage: string
-    timestamp?: string
-}
-
+import { historyService } from "../services/historyService"
 
 
 const VerificationHistory = () => {
-    const saved = localStorage.getItem('verificationHistory')
-    const history: VerificationResult[] = saved ? JSON.parse(saved) : []
+    const history = historyService.getHistory()
     return (
         <div>
             <h3>Verification History:</h3>

@@ -1,5 +1,7 @@
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { useState } from 'react'
+import { historyService } from '../services/historyService'
+
 
 
 
@@ -24,10 +26,7 @@ const MessageSigner = () => {
             const data = await res.json()
             console.log('Verification response:', data)
             const resultWithTimestamp = {...data, timestamp: new Date().toLocaleString()}
-            const saved = localStorage.getItem('verificationHistory')
-            const history = saved ? JSON.parse(saved) : []
-            const newHistory = [resultWithTimestamp, ...history]
-            localStorage.setItem('verificationHistory', JSON.stringify(newHistory))
+            historyService.addToHistory(resultWithTimestamp)
         } catch (err) {
             setError((err as Error)?.message || 'Signing failed')
         }
