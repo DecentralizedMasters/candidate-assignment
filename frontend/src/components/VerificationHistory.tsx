@@ -5,7 +5,7 @@ const VerificationHistory = () => {
     const history = historyService.getHistory()
     return (
         <div>
-            <h3>Verification History:</h3>
+            <h3>Verification History</h3>
             {history.map(({ isValid, signer, originalMessage, timestamp }, index) => (
                 <div key={index}>
                     <p><strong>Verified at:</strong> {timestamp}</p>
