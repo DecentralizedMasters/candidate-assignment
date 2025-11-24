@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { signatureService } from "../services/SignatureVerifierServise";
-import { validateSignatureRequest } from "../middleware/validation";
+import { validateSignatureRequest } from "../middleware/validation/validation";
 
 const router = Router();
 
