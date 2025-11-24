@@ -21,7 +21,6 @@ const MessageSigner = ({ onSuccess }: { onSuccess: () => void }) => {
             if (!signature) return
 
             const data = await apiService.verifySignature({ message, signature })
-            console.log('Verification response:', data)
             const resultWithTimestamp = { ...data, timestamp: new Date().toLocaleString() }
             historyService.addToHistory(resultWithTimestamp)
             setMessage('')

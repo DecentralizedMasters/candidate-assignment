@@ -37,7 +37,6 @@ const LoginForm = () => {
     };
 
     const handleResendClick = () =>{
-      setError(null);
       connectWithEmail(email);
     } 
 
