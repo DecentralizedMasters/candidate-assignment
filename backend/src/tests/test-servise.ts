@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'assert';
-import { signatureService } from '../services/SignatureVerifierServise';
+import { signatureService } from '../services/SignatureVerifierService';
 
 
 test('SignatureService - valid signature', () => {
