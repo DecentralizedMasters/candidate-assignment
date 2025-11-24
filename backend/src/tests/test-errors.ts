@@ -1,10 +1,12 @@
 import test from 'node:test';
 import assert from 'assert';
 import { AppError } from '../errors/AppError';
+import { CONFIG } from '../config/config';
 
 
 test('AppError - default status code', () => {
-  const error = new AppError('Test error');
+  const defaultStatusCode = CONFIG.STATUS_CODES.BAD_REQUEST;
+  const error = new AppError('Test error',defaultStatusCode);
   
   assert.strictEqual(error.message, 'Test error');
   assert.strictEqual(error.statusCode, 400);

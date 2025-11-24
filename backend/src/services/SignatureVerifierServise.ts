@@ -1,6 +1,6 @@
 import { ethers } from "ethers";
 
-class SignatureService {
+class SignatureVerifierService {
   verifySignature(message: string, signature: string): { isValid: boolean; signer: string; originalMessage: string } {
     let res = { isValid: false, signer: "", originalMessage: message };
     try {
@@ -11,4 +11,4 @@ class SignatureService {
   }
 }
 
-export const signatureService = new SignatureService();
+export const signatureService = new SignatureVerifierService();

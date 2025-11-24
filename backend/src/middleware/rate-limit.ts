@@ -1,12 +1,11 @@
 import { rateLimit } from 'express-rate-limit';
 import { AppError } from '../errors/AppError';
-
+import { CONFIG } from '../config/config';
 
 export const apiLimiter = rateLimit({
-    windowMs:  1 * 60 * 1000,
-    max: 3,
+    windowMs: CONFIG.RATE_LIMIT.WINDOW_MS,
+    max: CONFIG.RATE_LIMIT.MAX,
     handler: (_req, _res, next) => {
-       
-       next(new AppError('Too many requests, please try again later.', 429));
+        next(new AppError(CONFIG.RATE_LIMIT.MESSAGE, CONFIG.STATUS_CODES.TOO_MANY_REQUESTS));
     }
 });
