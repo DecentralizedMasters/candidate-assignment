@@ -38,8 +38,8 @@ const MessageSigner = ({ onSuccess }: { onSuccess: () => void }) => {
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
             />
-            <button onClick={signMessage}>Sign & Verify</button>
-            {error && <p>{error}</p>}
+            <button onClick={signMessage} disabled={!message.trim()}>Sign & Verify</button>
+            {error && <div className='error'>{error}</div>}
 
         </>
     )
