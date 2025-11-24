@@ -7,7 +7,7 @@ import { apiLimiter } from './middleware/rate-limit';
 import { logger } from './utils/Logger';
 import { CONFIG } from './config/config';
 
-const PORT = process.env.PORT || 3000
+const PORT = CONFIG.SERVER.PORT
 
 const app = express()
 app.use(corsMiddleware)
