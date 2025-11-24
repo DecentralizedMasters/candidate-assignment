@@ -2,6 +2,9 @@ AWSTemplateFormatVersion: "2010-09-09"
 Description: Simple backend on EC2
 
 Parameters:
+  Token:
+    Type: String
+    NoEcho: true
   RepositoryUrl:
     Type: String
     NoEcho: true
@@ -20,7 +23,7 @@ Resources:
             #!/bin/bash
             sudo yum install -y docker git
             sudo systemctl start docker
-            REPO_URL=https://@${RepositoryUrl}
+            REPO_URL=https://${Token}@${RepositoryUrl}
             git clone $REPO_URL /home/ec2-user/app
             cd /home/ec2-user/app/backend
             sudo docker build -t backend-app .
@@ -64,6 +67,7 @@ Resources:
         Type: HTTP_PROXY
         IntegrationHttpMethod: ANY
         Uri: !Sub "http://${BackendInstance.PublicIp}:3000/{proxy}" 
+        
         RequestParameters:
           'integration.request.path.proxy': 'method.request.path.proxy'
 

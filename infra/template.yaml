@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Transform: AWS::Serverless-2016-10-31
-Description: Main SAM template
+Description: Main SAM template with nested frontend
 
 Parameters:
   Token:
@@ -11,7 +11,7 @@ Parameters:
     Default: /DynamicId
   RepositoryUrl:
     Type: String
-    Default: https://github.com/DecentralizedMasters/candidate-assignment.git
+    Default: github.com/DecentralizedMasters/candidate-assignment.git
     
 
 Resources:
