@@ -19,10 +19,10 @@ const MessageSigner = ({ onSuccess }: { onSuccess: () => void }) => {
         try {
             const signature = await primaryWallet?.signMessage(message)
             if (!signature) return
-            
+
             const data = await apiService.verifySignature({ message, signature })
             console.log('Verification response:', data)
-            const resultWithTimestamp = {...data, timestamp: new Date().toLocaleString()}
+            const resultWithTimestamp = { ...data, timestamp: new Date().toLocaleString() }
             historyService.addToHistory(resultWithTimestamp)
             setMessage('')
             setError(null)
@@ -37,6 +37,7 @@ const MessageSigner = ({ onSuccess }: { onSuccess: () => void }) => {
             <textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
+                aria-label='message'
             />
             <button onClick={signMessage} disabled={!message.trim()}>Sign & Verify</button>
             {error && <div className='error'>{error}</div>}
