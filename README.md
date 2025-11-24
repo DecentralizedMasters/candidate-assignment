@@ -1,64 +1,93 @@
-# Take-Home Task: **Web3 Message Signer & Verifier**
-React + Dynamic.xyz Headless Implementation (Frontend) | Node.js + Express (Backend)
+# Web3 Message Signer & Verifier
 
-## 🎯 Objective
-Build a full-stack Web3 app that allows a user to:
-1. Authenticate using a **Dynamic.xyz embedded wallet headless implementation https://docs.dynamic.xyz/headless/headless-email** ⚠️ Do not simply implement the Widget ⚠️
-2. Enter and **sign a custom message** of the user's choosing
-3. Send the signed message to a **Node.js + Express** backend
-4. Backend verifies the signature and responds with validity + address
+A full-stack Web3 application for signing and verifying Ethereum messages using Dynamic.xyz headless wallet integration.
 
-## 🔧 Requirements
+## Live Demo
 
-### 🧩 Frontend (React 18+)
-* Integrate Dynamic.xyz Embedded Wallet
-* After authentication:
-   * Show connected wallet address
-   * Provide a form to input a custom message
-   * Let user sign the message
-   * Submit `{ message, signature }` to backend
-* Show result from backend:
-   * Whether the signature is valid
-   * Which wallet signed it
-* Allow signing multiple messages (show a local history)
+Frontend: https://main.d28z8oqntazhkp.amplifyapp.com
+Backend API: https://zl83pu4pik.execute-api.us-east-1.amazonaws.com/prod
 
-**Note:** How you structure the React app is up to you — but the app complexity is high enough that good React patterns will shine through.
+## How to Use
 
-### 🌐 Backend (Node.js + Express – required)
-* Create a REST API endpoint: `POST /verify-signature`
-* Accept:
-```json
-{ "message": "string", "signature": "string" }
-```
-* Use `ethers.js` (or `viem`) to:
-   * Recover the signer from the signature
-   * Validate the signature
-* Return:
-```json
-{ "isValid": true, "signer": "0xabc123...", "originalMessage": "..." }
-```
+### 1. Sign Up / Login
+1. Open frontend at `http://localhost:5173`
+2. Enter your email address
+3. Check your email for OTP code
+4. Enter the 6-digit code
+5. You're authenticated!
 
-## Behavior & Constraints
-* Session state can be in-memory (no DB required)
-* Message signing history should persist across React component state or localStorage
-* No third-party signature validation services — use raw `ethers.js`, `viem` or similar in backend
 
-## 🚀 Submission Guidelines
-* Create a **GitHub repo**
-* Include:
-   * Setup instructions for both frontend and backend in a README.md file
-   * Notes on any trade-offs made or areas you'd improve
-   * A test suite with all tests passing
-* Bonus: Implement headless **multi-factor auth** to secure the user https://docs.dynamic.xyz/headless/headless-mfa
-* Bonus: Link to deployed version (e.g., Vercel frontend, Render backend)
+### 3. Sign a Message
+1. Enter your message in the textarea
+2. Click "Sign & Verify"
+3. Message is signed and verified
+4. Result shows in history
 
-## ✅ Evaluation Focus
-| Area | Evaluated On |
-|------|-------------|
-| **React architecture** | Component design, state flow, hooks, separation of concerns |
-| **Dynamic.xyz usage** | Clean login, wallet context management, signing flow |
-| **Node.js + Express** | REST API correctness, signature validation logic, modularity |
-| **Code quality** | Readability, organization, error handling, TypeScript use |
-| **User experience** | Clear flows, responsive feedback, intuitive UI |
-| **Extensibility** | Evidence of scalable thought (e.g., room for auth, roles, message types) |
-| **Design** | Beautiful UX design skills are important to us. Make the app look and feel great |
+### 4. View History
+- All signed messages appear in "Verification History"
+- Shows: timestamp, validity, signer address, original message
+- History persists in browser localStorage
+
+
+## Quick Start
+
+### Prerequisites
+- Node.js 18+
+- npm 
+- Dynamic.xyz account with environment ID
+
+### Setting Up Dynamic.xyz
+
+1. Go to https://app.dynamic.xyz
+2. Sign up or log in to your account
+3. Create a new project or select existing one
+4. In the dashboard, find "Environment ID"
+5. Copy the Environment ID 
+6. This ID is used in frontend `.env` file as `VITE_DYNAMIC_ENVIRONMENT_ID`
+
+
+### Environment Variables
+
+**Frontend** (`.env`):
+env
+VITE_DYNAMIC_ENVIRONMENT_ID=your_dynamic_environment_id
+VITE_BACKEND_URL=http://localhost:3000
+
+
+**Backend** (`.env`):
+env
+PORT=3000
+CORS_ORIGIN=http://localhost:5173
+
+## Frontend Setup
+
+### Installation
+cd frontend
+npm install
+npm run dev
+
+## Backend Setup
+
+### Installation
+cd backend
+npm install
+npm run dev
+ 
+## Trade-offs & Future Improvements
+
+### Current Trade-offs
+- **In-memory state**: No database, data lost on server restart
+- **localStorage**: Limited to browser, no cross-device sync
+- **Single EC2 instance**: No high availability
+
+
+### Future Improvements
+- Add PostgreSQL for persistent storage
+- Implement user sessions with JWT
+- Add multi-wallet support
+- Deploy with load balancing
+- Add E2E tests with Playwright
+- Implement WebSocket for real-time updates
+- Add message encryption
+- Support multiple blockchain networks
+
