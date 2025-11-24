@@ -1,4 +1,4 @@
-import CustomWidget from "../components/CustomWidgets"
+import CustomWidget from "../components/wallet/CustomWidgets"
 import ethereumIcon from '../assets/etherium.png';
 
 const Home = () => {

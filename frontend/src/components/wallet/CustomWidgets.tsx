@@ -1,8 +1,8 @@
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { useState } from 'react'
-import MessageSigner from './MessageSigner'
-import { historyService } from '../services/historyService'
-import VerificationHistory from './VerificationHistory'
+import MessageSigner from '../signPanel/MessageSigner'
+import { historyService } from '../../services/historyService'
+import VerificationHistory from '../signPanel/VerificationHistory'
 
 
 const CustomWidget = () => {

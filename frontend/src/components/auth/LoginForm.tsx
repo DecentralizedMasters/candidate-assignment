@@ -1,7 +1,7 @@
 import { useConnectWithOtp } from '@dynamic-labs/sdk-react-core';
 import React, { useRef, useState } from 'react';
-import ErrorDisplay from './ErrorDisplay';
-import { handleChangeOtp, handleKeyDown, handlePaste } from '../utils/otpUtils';
+import ErrorDisplay from '../ui/ErrorDisplay';
+import { handleChangeOtp, handleKeyDown, handlePaste } from '../../utils/otpUtils';
 
 
 

@@ -1,7 +1,7 @@
 import { useDynamicContext } from '@dynamic-labs/sdk-react-core'
 import { useState } from 'react'
-import { apiService } from '../services/apiService'
-import { historyService } from '../services/historyService'
+import { apiService } from '../../services/apiService'
+import { historyService } from '../../services/historyService'
 
 
 

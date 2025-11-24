@@ -1,4 +1,4 @@
-import { historyService } from "../services/historyService"
+import { historyService } from "../../services/historyService"
 
 
 const VerificationHistory = () => {
