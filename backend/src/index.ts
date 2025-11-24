@@ -4,6 +4,8 @@ import { AppError } from './errors/AppError';
 import { errorHandler } from './middleware/error-handling';
 import { corsMiddleware } from './middleware/cors';
 import { apiLimiter } from './middleware/rate-limit';
+import { logger } from './utils/Logger';
+import { CONFIG } from './config/config';
 
 const PORT = process.env.PORT || 3000
 
@@ -15,8 +17,8 @@ app.use(apiLimiter)
 
 
 app.use('/', router);
-app.use((req, _, next) => {
-  next(new AppError(`Route ${req.originalUrl} not found`, 404));
+app.use((_, __, next) => {
+  next(new AppError(`Route  not found`, 404));
 });
 
 
@@ -24,5 +26,7 @@ app.use(errorHandler);
 
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-})  
+logger.info(`Server running on port ${PORT}`);})  
+
+logger.error(
+  `Unhandled error occurred ${JSON.stringify(CONFIG, null, 2)}`)

@@ -1,11 +1,13 @@
 import { rateLimit } from 'express-rate-limit';
 import { AppError } from '../errors/AppError';
 import { CONFIG } from '../config/config';
+import { logger } from '../utils/Logger';
 
 export const apiLimiter = rateLimit({
     windowMs: CONFIG.RATE_LIMIT.WINDOW_MS,
     max: CONFIG.RATE_LIMIT.MAX,
-    handler: (_req, _res, next) => {
+    handler: (req, _, next) => {
+        logger.warn(`Rate limit exceeded for IP: ${req?.ip}`);
         next(new AppError(CONFIG.RATE_LIMIT.MESSAGE, CONFIG.STATUS_CODES.TOO_MANY_REQUESTS));
     }
 });
