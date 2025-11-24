@@ -1,20 +1,22 @@
-const LEVELS = { info: 0, warn: 1, error: 2 } as const;
-type L = keyof typeof LEVELS;
+import winston from 'winston'
 
-class Logger {
-    level = LEVELS[process.env.LOG_LEVEL as L] ?? 0;
+/**
+ * Winston logger configuration
+ * Logs to console with timestamp and level
+ */
+const logger = winston.createLogger({
+  level: process.env.LOG_LEVEL || 'info',
+  format: winston.format.combine(
+    winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
+    winston.format.errors({ stack: true }),
+    winston.format.printf(({ timestamp, level, message, stack }) => {
+      const msg = stack || message
+      return `[${timestamp}] [${level.toUpperCase()}] ${msg}`
+    })
+  ),
+  transports: [
+    new winston.transports.Console()
+  ]
+})
 
-    private out(l: L, msg: string) {
-        if (LEVELS[l] > this.level) return;
-        console[l === "error" ? "error" : l](
-            `[${new Date().toISOString()}] [${l.toUpperCase()}]`,
-            msg
-        );
-    }
-
-    info(msg: string) { this.out("info", msg); }
-    warn(msg: string) { this.out("warn", msg); }
-    error(msg: string) { this.out("error", msg); }
-}
-
-export const logger = new Logger();
+export { logger }

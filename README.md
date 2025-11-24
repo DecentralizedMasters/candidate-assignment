@@ -5,6 +5,7 @@ A full-stack Web3 application for signing and verifying Ethereum messages using 
 ## Live Demo
 
 Frontend: https://main.d28z8oqntazhkp.amplifyapp.com
+
 Backend API: https://zl83pu4pik.execute-api.us-east-1.amazonaws.com/prod
 
 ## How to Use
@@ -61,14 +62,11 @@ CORS_ORIGIN=http://localhost:5173
 
 ## Frontend Setup
 
-### Installation
 cd frontend
 npm install
 npm run dev
 
 ## Backend Setup
-
-### Installation
 cd backend
 npm install
 npm run dev

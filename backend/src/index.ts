@@ -24,5 +24,3 @@ app.use(errorHandler);
 app.listen(PORT, () => {
   logger.info(`Server running on port ${PORT}`);
 });
-
-logger.error(`Unhandled error occurred ${JSON.stringify(CONFIG, null, 2)}`);
