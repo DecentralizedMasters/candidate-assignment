@@ -1,11 +1,11 @@
 import express from 'express'
-import cors from 'cors'
 import router from './routes/verify-signature';
 import { AppError } from './errors/AppError';
 import { errorHandler } from './middleware/error-handling';
+import { corsMiddleware } from './middleware/cors';
 
 const app = express()
-app.use(cors())
+app.use(corsMiddleware)
 app.use(express.json())
 
 const PORT = process.env.PORT || 3000
