@@ -1,0 +1,10 @@
+# SAM
+samconfig.toml
+.aws-sam/
+
+# AWS
+.aws/
+
+# Environment
+.env
+.env.local

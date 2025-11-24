@@ -1,0 +1,81 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Simple backend on EC2
+
+Parameters:
+  RepositoryUrl:
+    Type: String
+    NoEcho: true
+
+Resources:
+  BackendInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: ami-0fa3fe0fa7920f68e
+      InstanceType: t3.micro
+      SecurityGroups:
+        - !Ref BackendSecurityGroup
+      UserData:
+        Fn::Base64:
+          Fn::Sub: |
+            #!/bin/bash
+            sudo yum install -y docker git
+            sudo systemctl start docker
+            REPO_URL=https://@${RepositoryUrl}
+            git clone $REPO_URL /home/ec2-user/app
+            cd /home/ec2-user/app/backend
+            sudo docker build -t backend-app .
+            sudo docker run -d --restart always -p 3000:3000 backend-app
+            
+
+  BackendSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Backend security group
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3000
+          ToPort: 3000
+          CidrIp: 0.0.0.0/0
+
+  BackendApi:
+    Type: AWS::ApiGateway::RestApi
+    Properties:
+      Name: BackendApi
+      EndpointConfiguration:
+        Types: [REGIONAL]
+
+  BackendApiResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref BackendApi
+      ParentId: !GetAtt BackendApi.RootResourceId
+      PathPart: "{proxy+}"
+
+  BackendProxyANY:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref BackendApi
+      ResourceId: !Ref BackendApiResource
+      HttpMethod: ANY
+      AuthorizationType: NONE
+      RequestParameters:
+        method.request.path.proxy: true
+      Integration:
+        Type: HTTP_PROXY
+        IntegrationHttpMethod: ANY
+        Uri: !Sub "http://${BackendInstance.PublicIp}:3000/{proxy}" 
+        RequestParameters:
+          'integration.request.path.proxy': 'method.request.path.proxy'
+
+  BackendApiDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn: BackendProxyANY
+    Properties:
+      RestApiId: !Ref BackendApi
+      StageName: prod
+
+Outputs:
+  BackendUrl:
+    Value: !Sub "https://${BackendApi}.execute-api.${AWS::Region}.amazonaws.com/prod"
+  BackendIP:
+    Value: !GetAtt BackendInstance.PublicIp

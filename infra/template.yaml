@@ -1,0 +1,41 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Main SAM template
+
+Parameters:
+  Token:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /token
+  DynamicId:
+    Type: AWS::SSM::Parameter::Value<String>
+    Default: /DynamicId
+  RepositoryUrl:
+    Type: String
+    Default: https://github.com/DecentralizedMasters/candidate-assignment.git
+    
+
+Resources:
+  FrontendStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./frontend.yaml
+      Parameters:
+        Token: !Ref Token
+        DynamicId: !Ref DynamicId
+        RepositoryUrl: !Ref RepositoryUrl
+        BackendUrl: !GetAtt BackendStack.Outputs.BackendUrl
+
+  BackendStack:
+    Type: AWS::CloudFormation::Stack
+    Properties:
+      TemplateURL: ./backend.yaml
+      Parameters:
+        Token: !Ref Token
+        RepositoryUrl: !Ref RepositoryUrl
+Outputs:
+  AmplifyURL:
+    Value: !GetAtt FrontendStack.Outputs.AmplifyURL
+  RunJobCommand:
+    Value: !GetAtt FrontendStack.Outputs.RunJobCommand
+  BackendUrl:
+    Value: !GetAtt BackendStack.Outputs.BackendUrl

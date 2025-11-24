@@ -1,0 +1,69 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Frontend hosted on Amplify
+
+Parameters:
+  Token:
+    Type: String
+    NoEcho: true
+  DynamicId:
+    Type: String
+  BackendUrl:
+    Type: String  
+  RepositoryUrl:
+    Type: String
+  
+Resources:
+  AmplifyServiceRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: amplify.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess-Amplify
+
+  AmplifyApp:
+    Type: AWS::Amplify::App
+    Properties:
+      Name: MyFrontendApp
+      Repository: !Ref RepositoryUrl
+      AccessToken: !Ref Token
+      IAMServiceRole: !GetAtt AmplifyServiceRole.Arn
+      EnvironmentVariables:
+        - Name: VITE_DYNAMIC_ENVIRONMENT_ID
+          Value: !Ref DynamicId
+        - Name: VITE_BACKEND_URL
+          Value: !Ref BackendUrl
+      BuildSpec: |
+        version: 1
+        frontend:
+          phases:
+            preBuild:
+              commands:
+                - cd frontend
+                - npm install
+            build:
+              commands:
+                - npm run build
+          artifacts:
+            baseDirectory: frontend/dist
+            files:
+              - '**/*'
+
+  AmplifyBranch:
+    Type: AWS::Amplify::Branch
+    Properties:
+      AppId: !GetAtt AmplifyApp.AppId
+      BranchName: main
+      EnableAutoBuild: true
+
+Outputs:
+  AmplifyURL:
+    Value: !Sub "https://${AmplifyBranch.BranchName}.${AmplifyApp.DefaultDomain}"
+  RunJobCommand:
+    Description: "Copy this command to terminal to run job"
+    Value: !Sub "aws amplify start-job --app-id ${AmplifyApp.AppId} --branch-name main --job-type RELEASE"
