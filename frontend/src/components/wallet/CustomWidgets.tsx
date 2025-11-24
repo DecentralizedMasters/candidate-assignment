@@ -6,9 +6,11 @@ import { historyService } from '../../services/historyService'
 
 const CustomWidget = () => {
     const { primaryWallet, user, handleLogOut } = useDynamicContext()
-
-    const [, forceUpdate] = useState({})
-    const refreshHistory = useCallback(() => forceUpdate({}), [])
+    const [historyVersion, setHistoryVersion] = useState(0);
+    
+    const refreshHistory = useCallback(() => {
+        setHistoryVersion((v) => v + 1)
+    }, []);
 
     const handleLogoutAndClear = useCallback(() => {
         handleLogOut()
@@ -23,7 +25,7 @@ const CustomWidget = () => {
             </div>
             <div className='wallet-address'>Wallet Address: {primaryWallet?.address || "no wallet connected"}</div>
             <div className='wallet-signer'><MessageSigner onSuccess={refreshHistory} /></div>
-            <VerificationHistory />
+            <VerificationHistory key={historyVersion} />
         </>
     )
 }
