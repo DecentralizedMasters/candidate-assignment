@@ -5,7 +5,8 @@ interface VerificationResult {
     timestamp?: string
 }
 
-const STORAGE_KEY = 'verificationHistory'
+const STORAGE_KEY = import.meta.env.VITE_STORAGE_KEY || 'verificationHistory'
+
 
 export const historyService = {
     getHistory(): VerificationResult[] {

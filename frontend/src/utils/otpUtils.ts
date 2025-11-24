@@ -46,6 +46,6 @@ export const handlePaste = (
   setOtp(newOtp);
   
   const nextIndex = newOtp.findIndex((d) => d === '');
-  const focusIndex = nextIndex === -1 ? 5 : nextIndex;
+  const focusIndex = nextIndex !== -1 ? nextIndex : 5;
   inputRefs.current?.[focusIndex]?.focus();
 };
