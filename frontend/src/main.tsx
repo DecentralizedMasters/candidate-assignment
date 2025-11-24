@@ -4,8 +4,6 @@ import './index.css'
 import App from './App.tsx'
 import { DynamicProvider } from './context/DynamicProvider.tsx'
 
-
-
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <DynamicProvider>

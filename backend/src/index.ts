@@ -14,19 +14,15 @@ app.use(corsMiddleware)
 app.use(express.json())
 app.use(apiLimiter)
 
-
-
 app.use('/', router);
 app.use((_, __, next) => {
-  next(new AppError(`Route  not found`, 404));
+  next(new AppError(`Route not found`, 404));
 });
-
 
 app.use(errorHandler);
 
-
 app.listen(PORT, () => {
-logger.info(`Server running on port ${PORT}`);})  
+  logger.info(`Server running on port ${PORT}`);
+});
 
-logger.error(
-  `Unhandled error occurred ${JSON.stringify(CONFIG, null, 2)}`)
+logger.error(`Unhandled error occurred ${JSON.stringify(CONFIG, null, 2)}`);
