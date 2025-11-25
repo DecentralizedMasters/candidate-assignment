@@ -4,29 +4,26 @@ A full-stack Web3 application for signing and verifying Ethereum messages using 
 
 ## Live Demo
 
-Frontend: 
-https://main.d28z8oqntazhkp.amplifyapp.com
+Frontend: https://main.d28z8oqntazhkp.amplifyapp.com
 
-Backend API:
- https://zl83pu4pik.execute-api.us-east-1.amazonaws.com/prod
+Backend API: https://zl83pu4pik.execute-api.us-east-1.amazonaws.com/prod
 
 ## How to Use
 
-### 1. Sign Up / Login
-1. Open frontend 
+### Sign Up / Login
+1. Open frontend
 2. Enter your email address
 3. Check your email for OTP code
 4. Enter the 6-digit code
-5. You're authenticated!
+5. You're authenticated
 
-
-### 3. Sign a Message
+### Sign a Message
 1. Enter your message in the textarea
 2. Click "Sign & Verify"
 3. Message is signed and verified
 4. Result shows in history
 
-### 4. View History
+### View History
 - All signed messages appear in "Verification History"
 - Shows: timestamp, validity, signer address, original message
 - History persists in browser localStorage
@@ -34,108 +31,134 @@ Backend API:
 
 ## Quick Start
 
-Prerequisites:
+### Prerequisites
 - Node.js 18+
-- npm 
+- npm
 - Dynamic.xyz account
 
-Setup:
-
-cd frontend
-npm install
-VITE_DYNAMIC_ENVIRONMENT_ID=your_id VITE_BACKEND_URL=http://localhost:3000 npm run dev
-
+### Backend Setup
+```
 cd backend
 npm install
 npm run dev
+```
+
+Backend runs on http://localhost:3000
+
+### Frontend Setup
+```
+cd frontend
+npm install
+```
+
+Create `.env` file:
+```
+VITE_DYNAMIC_ENVIRONMENT_ID=your_dynamic_id
+VITE_BACKEND_URL=http://localhost:3000
+```
+
+Run:
+```
+npm run dev
+```
+
+Frontend runs on http://localhost:5173
 
 
 ## Backend API
 
-
-GET /
-Returns: 404 Route not found
-
-
-POST /verify-signature
+### POST /verify-signature
 
 Request body:
+```json
 {
   "message": "string (required, min 1 char)",
   "signature": "string (required, 0x + 130 hex chars)"
 }
+```
 
-Response 200
+Response 200:
+```json
+{
+  "isValid": true,
+  "signer": "0x...",
+  "originalMessage": "Hello"
+}
+```
 
 
-## Backend Testing
+## Testing
 
-Run tests:
+### Backend Tests
+```
 cd backend
 npm test
+```
 
 Test files:
-- src/tests/test-servise.ts: SignatureVerifierService tests
-- src/tests/test-middleware.ts: Middleware tests
-- src/tests/test-routes.ts: Route handler tests
-- src/tests/test-errors.ts: Error handling tests
+- `test-servise.ts` - SignatureVerifierService tests
+- `test-middleware.ts` - Middleware tests
+- `test-routes.ts` - Route handler tests
+- `test-errors.ts` - Error handling tests
 
-
-## Frontend Testing
-
-Run tests:
+### Frontend Tests
+```
 cd frontend
 npm test
+```
 
 Test files:
-- src/services/apiService.test.ts: API calls
-- src/services/historyService.test.ts: localStorage management
-- src/components/auth/LoginFrom.test.tsx: Login component
+- `apiService.test.ts` - API calls
+- `historyService.test.ts` - localStorage management
+- `LoginFrom.test.tsx` - Login component
 
 ### Error Handling
 
-Error types:
-- 400 Bad Request: Validation failed
-- 404 Not Found: Route not found
-- 429 Too Many Requests: Rate limit exceeded
-- 500 Internal Server Error: Unexpected error
+- 400 Bad Request - Validation failed
+- 404 Not Found - Route not found
+- 429 Too Many Requests - Rate limit exceeded
+- 500 Internal Server Error - Unexpected error
 
 
 
-### Backend Test Scenarios
+## Test Scenarios
 
-1. Valid Signature
-   Input: message="Hello", signature="0x..." (valid)
-   Expected: { isValid: true, signer: "0x...", originalMessage: "Hello" }
+**Valid Signature**
+- Input: `message="Hello"`, `signature="0x..."` (valid)
+- Expected: `{ isValid: true, signer: "0x...", originalMessage: "Hello" }`
 
-2. Invalid Signature
-   Input: message="Hello", signature="0x..." (invalid)
-   Expected: { isValid: false, signer: "", originalMessage: "Hello" }
+**Invalid Signature**
+- Input: `message="Hello"`, `signature="0x..."` (invalid)
+- Expected: `{ isValid: false, signer: "", originalMessage: "Hello" }`
 
-3. Validation Error - Missing Message
-   Input: { signature: "0x..." }
-   Expected: 400 error "Message is required"
+**Validation Error - Missing Message**
+- Input: `{ signature: "0x..." }`
+- Expected: 400 error "Message is required"
 
-4. Validation Error - Invalid Signature Format
-   Input: { message: "Hello", signature: "invalid" }
-   Expected: 400 error "Signature must be a valid 132-character..."
+**Validation Error - Invalid Signature Format**
+- Input: `{ message: "Hello", signature: "invalid" }`
+- Expected: 400 error "Signature must be a valid 132-character..."
 
-5. Rate Limit
-   Input: 6 requests in 60 seconds
-   Expected: 6th request returns 429 "Too many requests"
+**Rate Limit**
+- Input: 6 requests in 60 seconds
+- Expected: 6th request returns 429 "Too many requests"
 
 
 ## Configuration
 
-Backend .env:
-PORT=3000 (server port)
-NODE_ENV=development (environment)
-CORS_ORIGIN=http://localhost:5173 (allowed frontend)
-LOG_LEVEL=info (logging level: info, warn, error)
+### Backend `.env`
+```
+PORT=3000
+NODE_ENV=development
+CORS_ORIGIN=http://localhost:5173
+LOG_LEVEL=info
+```
 
-Frontend .env:
-VITE_DYNAMIC_ENVIRONMENT_ID=... (Dynamic.xyz ID)
-VITE_BACKEND_URL=http://localhost:3000 (backend URL)
+### Frontend `.env`
+```
+VITE_DYNAMIC_ENVIRONMENT_ID=your_dynamic_id
+VITE_BACKEND_URL=http://localhost:3000
+```
 
 
 ## Project Structure
