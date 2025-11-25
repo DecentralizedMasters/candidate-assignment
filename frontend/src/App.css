@@ -29,7 +29,8 @@
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-
+    flex-wrap: wrap;
+    gap: 12px;
 }
 
 .wallet-address {
@@ -41,6 +42,7 @@
     font-family: monospace;
     font-size: 0.9rem;
     border-left: 4px solid #10b981;
+    word-break: break-word;
 }
 
 
@@ -81,7 +83,8 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 15px;
-    margin: 20px 0;
+    margin: 12px 0;
+    width: 100%;
 }
 
 .history {
@@ -91,6 +94,11 @@
     margin-bottom: 12px;
     border: 1px solid #4b5563;
     text-align: left;
+    width: 100%;
+    box-sizing: border-box;
+    width: 100%;
+    overflow-wrap: break-word;
+    word-break: break-word;
 
 }
 
@@ -110,23 +118,27 @@
     color: black;
 }
 
-.button-group {display: flex; gap: 8px; margin-top: 8px;}
+.button-group {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+}
 
 .otp-container {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  margin: 20px 0;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    margin: 20px 0;
 }
 
 .otp-input {
-  width: 40px;
-  height: 40px;
-  text-align: center;
-  font-size: 18px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
 }
 
 .otp-input:focus {
-  border-color: #007bff;
-  outline: none;
+    border-color: #007bff;
+    outline: none;
 }
