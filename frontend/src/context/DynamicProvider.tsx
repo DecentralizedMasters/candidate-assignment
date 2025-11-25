@@ -4,7 +4,7 @@ import ErrorDisplay from '../components/ui/ErrorDisplay';
 
 export function DynamicProvider({ children }: { children: React.ReactNode }) {
   const environmentId = import.meta.env.VITE_DYNAMIC_ENVIRONMENT_ID;
-  if (!environmentId) {
+  if (!environmentId || environmentId.length !== 36 ) {
     const configError = 'VITE_DYNAMIC_ENVIRONMENT_ID environment variable is required';
     return <ErrorDisplay error={configError}/>
   }
