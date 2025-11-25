@@ -163,27 +163,28 @@ VITE_BACKEND_URL=http://localhost:3000
 
 ## Project Structure
 
+```
 backend/
 ├── src/
-│   ├── index.ts (Express setup)
-│   ├── routes/verify-signature.ts (POST endpoint)
-│   ├── services/SignatureVerifierService.ts (ethers.js)
+│   ├── index.ts                              # Express setup
+│   ├── routes/verify-signature.ts            # POST endpoint
+│   ├── services/SignatureVerifierService.ts  # ethers.js 
 │   ├── middleware/
 │   │   ├── cors.ts
 │   │   ├── error-handling.ts
 │   │   ├── rate-limit.ts
 │   │   └── validation/
-│   │       ├── schemas.ts (Zod schemas)
-│   │       └── validation.ts (middleware)
-│   ├── config/config.ts (configuration)
-│   ├── errors/AppError.ts (error class)
-│   ├── utils/Logger.ts (Winston logger)
-│   └── tests/ (test files)
+│   │       ├── schemas.ts                    # Zod schemas
+│   │       └── validation.ts                 # Validation 
+│   ├── config/config.ts                      # Configuration
+│   ├── errors/AppError.ts                    # Error class
+│   ├── utils/Logger.ts                       # Winston logger
+│   └── tests/                                # Test files
 
 frontend/
 ├── src/
-│   ├── main.tsx (entry point)
-│   ├── App.tsx (routing)
+│   ├── main.tsx                              # Entry point
+│   ├── App.tsx                               # Routing
 │   ├── components/
 │   │   ├── auth/LoginForm.tsx
 │   │   ├── signPanel/MessageSigner.tsx
@@ -196,6 +197,7 @@ frontend/
 │   └── pages/
 │       ├── Landing.tsx
 │       └── Home.tsx
+```
 
 
 ## Trade-offs
